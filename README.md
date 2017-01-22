@@ -1,0 +1,2 @@
+# Local-card
+Locale client
