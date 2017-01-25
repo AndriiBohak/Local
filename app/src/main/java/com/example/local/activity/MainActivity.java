@@ -15,17 +15,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.local.R;
+import com.example.local.other.Session;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        session = new Session(this);
+        if(!session.loggedin()){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,6 +80,10 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
+            session.setLoggedin(false);
+            finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
             return true;
         }
 

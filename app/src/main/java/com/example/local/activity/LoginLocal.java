@@ -4,11 +4,10 @@ import java.io.*;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
+import android.content.SharedPreferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -17,13 +16,16 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 
-    public class LoginLocal extends AsyncTask<Void, Void, String> {
-    public JSONObject  reader;
+public class LoginLocal extends AsyncTask<Void, Void, String> {
+    public JSONObject reader;
     public String page;
+    public static final MediaType JSON = MediaType.parse("application/json;charset=utf-8");
+    public SharedPreferences prefs;
 
-    private String pass = "{username: \"1700000095226\", pass: \"andriybohak52634413\", lng: \"ua\", prgCode: \"prg1\"}";
-    public static  final  MediaType JSON = MediaType.parse("application/json;charset=utf-8");
-    OkHttpClient client = new OkHttpClient();
+    private String login;
+    private String pass;
+    private StringBuilder request_body = new StringBuilder();
+    private OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onPreExecute() {
@@ -32,7 +34,7 @@ import okhttp3.RequestBody;
 
     @Override
     protected String doInBackground(Void... params) {
-        RequestBody body = RequestBody.create(JSON,pass);
+        RequestBody body = RequestBody.create(JSON, request_body.toString());
         Request request = new Request.Builder()
                 .url("https://program.yousystem.com.ua/frontend/api/user/login")
                 .post(body)
@@ -62,6 +64,19 @@ import okhttp3.RequestBody;
         }
 
         Log.i("PAGE", "page from post" + page);
+
+    }
+
+    LoginLocal(String login, String pass) {
+        // "{username: \"1700000095226\", pass: \"andriybohak\", lng: \"ua\", prgCode: \"prg1\"}";
+        this.login = login;
+        this.pass = pass;
+        this.request_body.append("{username: \"");
+        this.request_body.append(login);
+        this.request_body.append("\", pass: \"");
+        this.request_body.append(pass);
+        this.request_body.append("\", lng: \"ua\", prgCode: \"prg1\"}\"");
+        Log.i("", "page constructor" + request_body.toString());
 
     }
 }
