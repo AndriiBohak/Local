@@ -126,7 +126,8 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    //////////////////////////
+    ///////////////////////////
+    ///asdsadasdadasd
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
 
